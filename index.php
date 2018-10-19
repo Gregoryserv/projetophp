@@ -30,6 +30,9 @@
           <li class="nav-item">
             <a class="nav-link" href="consulta-carros.php">Cons. Carros</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="cadastro-cliente.php">Cad. Cliente</a>
+          </li>
         </ul>
       </div>
     </nav>
