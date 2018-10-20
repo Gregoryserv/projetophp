@@ -6,7 +6,7 @@ include_once 'util/helper.class.php';
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <title>Cadastro dos Carros</title>
+  <title>Cadastro de Funcionarios</title>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
   <link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -16,7 +16,7 @@ include_once 'util/helper.class.php';
 </head>
   <body>
       <div class="container">
-        <h1 class="jumbotron bg-info">Cadastro de Carros</h1>
+        <h1 class="jumbotron bg-info">Cadastro de Funcionarios</h1>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <a class="navbar-brand" href="#">Sistema</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,22 +53,22 @@ include_once 'util/helper.class.php';
 
         <form name="cadcarro" method="post" action="">
           <div class="form-group">
-            <input type="text" name="txtmarca" placeholder="Marca" class="form-control">
+            <input type="text" name="txtnome" placeholder="Nome" class="form-control">
           </div>
           <div class="form-group">
-            <input type="text" name="txtmodelo" placeholder="Modelo" class="form-control">
+            <input type="text" name="txtcpf" placeholder="CPF" class="form-control">
           </div>
           <div class="form-group">
-            <input type="text" name="txtano" placeholder="Ano" class="form-control">
+            <input type="text" name="txtendereco" placeholder="Endereço" class="form-control">
           </div>
           <div class="form-group">
-            <input type="number" name="txtvalor" placeholder="valor" class="form-control">
+            <input type="number" name="txtsalario" placeholder="Salario" class="form-control">
           </div>
           <div class="form-group">
-            <select name="selcor" class="form-control">
-              <option value="Preto">Preto</option>
-              <option value="Vermelho">Vermelho</option>
-              <option value="Prata">Prata</option>
+            <select name="selfuncao" class="form-control">
+              <option value="Vendedor">Vendedor</option>
+              <option value="Gerente">Gerente</option>
+              <option value="Faxineiro">Faxineiro</option>
             </select>
           </div>
           <div class="form-group">
@@ -79,21 +79,21 @@ include_once 'util/helper.class.php';
         <?php
           //falta código
           if(isset($_POST['cadastrar'])){
-            include 'modelo/carro.class.php';
-            include 'dao/carrodao.class.php';
+            include 'modelo/funcionario.class.php';
+            include 'dao/funcionariodao.class.php';
             include 'util/padronizacao.class.php';
 
-            $c = new Carro();
-            $c->marca = Padronizacao::padronizarMaiMin($_POST['txtmarca']);
-            $c->modelo = Padronizacao::padronizarMaiMin($_POST['txtmodelo']);
-            $c->ano = Padronizacao::padronizarMaiMin($_POST['txtano']);
-            $c->valor = $_POST['txtvalor'];
-            $c->cor = $_POST['selcor'];
+            $fun = new Funcionario();
+            $fun->nome = Padronizacao::padronizarMaiMin($_POST['txtnome']);
+            $fun->cpf = Padronizacao::padronizarMaiMin($_POST['txtcpf']);
+            $fun->endereco = Padronizacao::padronizarMaiMin($_POST['txtendereco']);
+            $fun->salario = $_POST['txtsalario'];
+            $fun->funcao = $_POST['selfuncao'];
 
-            $carDAO = new CarroDAO();
-            $carDAO->cadastrarCarro($c);
+            $funDAO = new FuncionarioDAO();
+            $funDAO->cadastrarFuncionario($fun);
 
-            Helper::alert("Carro cadastrado com sucesso!");
+            Helper::alert("Funcionario cadastrado com sucesso!");
 
           }
         ?>

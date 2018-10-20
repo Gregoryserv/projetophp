@@ -2,12 +2,12 @@
 session_start();
 ob_start();
 
-include_once 'dao/carrodao.class.php';
-include_once 'modelo/carro.class.php';
+include_once 'dao/funcionariodao.class.php';
+include_once 'modelo/funcionario.class.php';
 include_once 'util/helper.class.php';
 
-$carDAO = new CarroDAO();
-$array = $carDAO->buscarCarros();
+$funDAO = new FuncionarioDAO();
+$array = $funDAO->buscarFuncionarios();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -22,7 +22,7 @@ $array = $carDAO->buscarCarros();
 </head>
 <body>
   <div class="container">
-    <h1 class="jumbotron bg-info">Consulta de Carros</h1>
+    <h1 class="jumbotron bg-info">Consulta de Funcionarios</h1>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">Sistema</a>
@@ -57,7 +57,8 @@ $array = $carDAO->buscarCarros();
         </ul>
       </div>
     </nav>
-    <h2>Consulta do carro!</h2>
+
+    <h2>Consulta do funcionario!</h2>
     <?php
     if(isset($_SESSION['msg'])){
       Helper::alert($_SESSION['msg']);
@@ -65,7 +66,7 @@ $array = $carDAO->buscarCarros();
     }
 
     if(count($array) == 0){
-        echo "<h2>Não há nenhum carro no banco!</h2>";
+        echo "<h2>Não há nenhum funcionario no banco!</h2>";
         return;
     }
 
@@ -82,11 +83,11 @@ $array = $carDAO->buscarCarros();
         <div class="form-group col-md-6">
           <select name="selfiltro" class="form-control">
             <option value="todos">Todos</option>
-            <option value="Marca">Marca</option>
-            <option value="Modelo">Modelo</option>
-            <option value="Ano">Ano</option>
-            <option value="Valor">Valor</option>
-            <option value="Cor">Cor</option>
+            <option value="nome">Nome</option>
+            <option value="cpf">CPF</option>
+            <option value="endereco">Endereço</option>
+            <option value="salario">Salario</option>
+            <option value="funcao">Função</option>
           </select>
         </div>
       </div> <!-- fecha row -->
@@ -101,13 +102,13 @@ $array = $carDAO->buscarCarros();
       $filtro = $_POST['selfiltro'];
 
       if(!empty($pesquisa)){
-        $carDAO = new CarroDAO();
-        $array = $carDAO->filtrar($pesquisa,$filtro);
+        $funDAO = new FuncionarioDAO();
+        $array = $funDAO->filtrar($pesquisa,$filtro);
 
         //var_dump($array);
 
         if(count($array) == 0){
-          echo "<h3>Sua pesquisa não retornou nenhum carro!</h3>";
+          echo "<h3>Sua pesquisa não retornou nenhum Funcionario!</h3>";
           return;
         }
 
@@ -123,11 +124,11 @@ $array = $carDAO->buscarCarros();
         <thead>
           <tr>
             <th>Código</th>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Ano</th>
-            <th>Valor</th>
-            <th>Cor</th>
+            <th>nome</th>
+            <th>cpf</th>
+            <th>endereco</th>
+            <th>salario</th>
+            <th>funcao</th>
             <th>Excluir</th>
             <th>Alterar</th>
           </tr>
@@ -135,27 +136,27 @@ $array = $carDAO->buscarCarros();
         <tfoot>
           <tr>
             <th>Código</th>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Ano</th>
-            <th>Valor</th>
-            <th>Cor</th>
+            <th>nome</th>
+            <th>cpf</th>
+            <th>endereco</th>
+            <th>salario</th>
+            <th>funcao</th>
             <th>Excluir</th>
             <th>Alterar</th>
           </tr>
         </tfoot>
         <tbody>
           <?php
-          foreach($array as $c){
+          foreach($array as $f){
             echo "<tr>";
-              echo "<td>$c->idCarro</td>";
-              echo "<td>$c->marca</td>";
-              echo "<td>$c->modelo</td>";
-              echo "<td>$c->ano</td>";
-              echo "<td>$c->valor</td>";
-              echo "<td>$c->cor</td>";
-              echo "<td><a href='consulta-carros.php?id=$c->idCarro' class='btn btn-danger'>Excluir</a></td>";
-              echo "<td><a href='alterar-carro.php?id=$c->idCarro' class='btn btn-warning'>Alterar</a></td>";
+              echo "<td>$f->idFuncionario</td>";
+              echo "<td>$f->nome</td>";
+              echo "<td>$f->cpf</td>";
+              echo "<td>$f->endereco</td>";
+              echo "<td>$f->salario</td>";
+              echo "<td>$f->funcao</td>";
+              echo "<td><a href='consulta-funcionarios.php?id=$f->idFuncionario' class='btn btn-danger'>Excluir</a></td>";
+              echo "<td><a href='alterar-funcionario.php?id=$f->idFuncionario' class='btn btn-warning'>Alterar</a></td>";
             echo "</tr>";
           }
           ?>
@@ -165,9 +166,9 @@ $array = $carDAO->buscarCarros();
   </div>
   <?php
   if(isset($_GET['id'])){
-    $carDAO->deletarCarro($_GET['id']);
-    $_SESSION['msg'] = "Carro excluído com sucesso!";
-    header("location:consulta-carros.php");
+    $funDAO->deletarFuncionario($_GET['id']);
+    $_SESSION['msg'] = "Funcionario excluído com sucesso!";
+    header("location:consulta-funcionarios.php");
     ob_end_flush();
   }
   ?>

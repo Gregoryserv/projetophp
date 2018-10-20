@@ -30,11 +30,22 @@ include_once 'util/helper.class.php';
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="cadastro-cliente.php">Cadastrar Cliente</a>
+                <a class="nav-link" href="cadastro-carro.php">Cad. Carros <span class="sr-only">(current)</span></a>
               </li>
-
               <li class="nav-item">
-                <a class="nav-link" href="consulta-clientes.php">Consultar Cliente<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="consulta-carros.php">Cons. Carros</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="cadastro-cliente.php">Cad. Clientes <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="consulta-clientes.php">Cons. Clientes</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="cadastro-funcionario.php">Cad. Funcionarios <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="consulta-funcionarios.php">Cons. Funcionarios</a>
               </li>
             </ul>
           </div>
@@ -45,7 +56,7 @@ include_once 'util/helper.class.php';
             <input type="text" name="txtnome" placeholder="Nome" class="form-control">
           </div>
           <div class="form-group">
-            <input type="text" name="txtidade" placeholder="Idade" class="form-control">
+            <input type="text" name="txtcnh" placeholder="CNH" class="form-control">
           </div>
           <div class="form-group">
             <input type="text" name="txtendereco" placeholder="Endereço" class="form-control">
@@ -74,7 +85,7 @@ include_once 'util/helper.class.php';
 
             $cli = new Cliente();
             $cli->nome = Padronizacao::padronizarMaiMin($_POST['txtnome']);
-            $cli->idade = Padronizacao::padronizarMaiMin($_POST['txtidade']);
+            $cli->cnh = Padronizacao::padronizarMaiMin($_POST['txtcnh']);
             $cli->endereco = Padronizacao::padronizarMaiMin($_POST['txtendereco']);
             $cli->diaria = $_POST['txtdiaria'];
             $cli->pagamento = $_POST['selpagamento'];

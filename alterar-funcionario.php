@@ -4,15 +4,15 @@ ob_start();
 include_once 'util/helper.class.php';
 
 if(isset($_GET['id'])){
-  include_once "dao/carrodao.class.php";
-  include_once "modelo/carro.class.php";
+  include_once "dao/funcionariodao.class.php";
+  include_once "modelo/funcionario.class.php";
 
-  $carDAO = new CarroDAO();
-  $array = $carDAO->filtrar($_GET['id'], "codigo");
+  $funDAO = new FuncionarioDAO();
+  $array = $funDAO->filtrar($_GET['id'], "codigo");
 
 
 
-  $car = $array[0];
+  $fun = $array[0];
 
 
 }
@@ -20,7 +20,7 @@ if(isset($_GET['id'])){
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <title>Edição de Carro</title>
+  <title>Edição dos Funcionarios</title>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
   <link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -30,7 +30,7 @@ if(isset($_GET['id'])){
 </head>
   <body>
       <div class="container">
-        <h1 class="jumbotron bg-info">Edição de carro</h1>
+        <h1 class="jumbotron bg-info">Edição dos Funcionarios</h1>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <a class="navbar-brand" href="#">Sistema</a>
@@ -69,35 +69,35 @@ if(isset($_GET['id'])){
         echo isset($_SESSION['msg']) ? Helper::alert($_SESSION['msg']) : "";
         unset($_SESSION['msg']);
         ?>
-        <form name="cadcarro" method="post" action="">
+        <form name="cadfuncionario" method="post" action="">
           <div class="form-group">
-            <input type="text" name="txtmarca" placeholder="Marca" class="form-control"
-                   value="<?php if(isset($car)){ echo $car->marca; }?>">
+            <input type="text" name="txtnome" placeholder="Nome" class="form-control"
+                   value="<?php if(isset($fun)){ echo $fun->nome; }?>">
           </div>
           <div class="form-group">
-            <input type="text" name="txtmodelo" placeholder="Modelo" class="form-control"
-                   value="<?php if(isset($car)){ echo $car->modelo; }?>">
+            <input type="text" name="txtcpf" placeholder="CPF" class="form-control"
+                   value="<?php if(isset($fun)){ echo $fun->cpf; }?>">
           </div>
           <div class="form-group">
-            <input type="text" name="txtano" placeholder="Ano" class="form-control"
-                   value="<?php if(isset($car)){ echo $car->ano; }?>">
+            <input type="text" name="txtendereco" placeholder="Endereco" class="form-control"
+                   value="<?php if(isset$fun)){ echo $fun->endereco; }?>">
           </div>
           <div class="form-group">
-            <input type="number" name="txtvalor" placeholder="Valor" class="form-control"
-            value="<?php if(isset($car)){ echo $car->valor; }?>">
+            <input type="number" name="txtsalario" placeholder="Salario" class="form-control"
+            value="<?php if(isset($fun)){ echo $fun->salario; }?>">
           </div>
           <div class="form-group">
-            <select name="selcor" class="form-control">
-              <option value="Preto" <?php
-                                     if(isset($car)){
-                                        if($car->cor == "Preto"){
+            <select name="selfuncao" class="form-control">
+              <option value="Vendedor" <?php
+                                     if(isset($fun)){
+                                        if($fun->funcao == "Vendedor"){
                                           echo "selected='selected'";
                                         }
                                      }
                                      ?>
-                                     >Preto</option>
-              <option value="Vermelho" <?php if(isset($car)){if($car->cor == "Vermelho"){echo "selected='selected'";}} ?>>Vermelho</option>
-              <option value="Prata" <?php if(isset($car)){if($car->cor == "Prata"){echo "selected='selected'";}} ?>>Prata</option>
+                                     >Vendedor</option>
+              <option value="Gerente" <?php if(isset($fun)){if($fun->funcao == "Gerente"){echo "selected='selected'";}} ?>>Gerente</option>
+              <option value="Faxineiro" <?php if(isset($fun)){if($fun->funcao == "Faxineiro"){echo "selected='selected'";}} ?>>Faxineiro</option>
             </select>
           </div>
           <div class="form-group">
@@ -108,26 +108,26 @@ if(isset($_GET['id'])){
         <?php
 
           if(isset($_POST['alterar'])){
-            include_once 'modelo/carro.class.php';
-            include_once 'dao/carrodao.class.php';
+            include_once 'modelo/funcionario.class.php';
+            include_once 'dao/funcionariodao.class.php';
             include 'util/padronizacao.class.php';
 
-            $car = new Carro();
-            $car->idCarro = $_GET['id'];
-            $car->marca = Padronizacao::antiXSS(Padronizacao::padronizarMaiMin($_POST['txtmarca']));
-            $car->modelo = Padronizacao::antiXSS(Padronizacao::padronizarMaiMin($_POST['txtmodelo']));
-            $car->ano = Padronizacao::antiXSS(Padronizacao::padronizarMaiMin($_POST['txtano']));
-            $car->valor = $_POST['txtvalor']; //n precisa é int
-            $car->cor = Padronizacao::antiXSS($_POST['selcor']);
-            $carDAO = new CarroDAO();
-            $carDAO->alterarCarro($car);
+            $fun = new Funcionario();
+            $fun->idCliente = $_GET['id'];
+            $fun->nome = Padronizacao::antiXSS(Padronizacao::padronizarMaiMin($_POST['txtnome']));
+            $fun->cpF = Padronizacao::antiXSS(Padronizacao::padronizarMaiMin($_POST['txtcpf']));
+            $fun->endereco = Padronizacao::antiXSS(Padronizacao::padronizarMaiMin($_POST['txtendereco']));
+            $fun->salario = $_POST['txtsalario'];
+            $fun->funcao = Padronizacao::antiXSS($_POST['selfuncao']);
+            $funDAO = new FuncionarioDAO();
+            $funDAO->alterarFuncionario($fun);
 
-            $_SESSION['msg'] = "Carro alterado com sucesso!";
-            header("location:consulta-carros.php");
+            $_SESSION['msg'] = "Funcionario alterado com sucesso!";
+            header("location:consulta-funcionarios.php");
 
-            //echo "<h2>Carro cadastrado com sucesso!</h2>";
-            //Helper::alert("Carro cadastrado com sucesso!");
-            //echo $car;
+            //echo "<h2>Funcionarios cadastrado com sucesso!</h2>";
+            //Helper::alert("Funcionario cadastrado com sucesso!");
+            //echo $fun;
             ob_end_flush();
           }
         ?>

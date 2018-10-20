@@ -3,7 +3,7 @@ class Cliente{
 
   private $idCliente;
   private $nome;
-  private $idade;
+  private $cnh;
   private $endereco;
   private $diaria;
   private $pagamento;
@@ -16,7 +16,7 @@ class Cliente{
 
   public function __toString(){
     return nl2br("Nome: $this->nome
-                  Idade: $this->idade
+                  CNH: $this->cnh
                   Endereço: $this->endereco
                   Diaria: $this->diaria
                   Método de pagament: $this->pagamento");

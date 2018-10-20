@@ -4,11 +4,11 @@ ob_start();
 include_once 'util/helper.class.php';
 
 if(isset($_GET['id'])){
-  include_once "dao/carrodao.class.php";
-  include_once "modelo/carro.class.php";
+  include_once "dao/clientedao.class.php";
+  include_once "modelo/cliente.class.php";
 
-  $carDAO = new CarroDAO();
-  $array = $carDAO->filtrar($_GET['id'], "codigo");
+  $cliDAO = new ClienteDAO();
+  $array = $cliDAO->filtrar($_GET['id'], "codigo");
 
 
 
@@ -20,7 +20,7 @@ if(isset($_GET['id'])){
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <title>Edição de Carro</title>
+  <title>Edição de Cliente</title>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
   <link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -30,7 +30,7 @@ if(isset($_GET['id'])){
 </head>
   <body>
       <div class="container">
-        <h1 class="jumbotron bg-info">Edição de carro</h1>
+        <h1 class="jumbotron bg-info">Edição de Cliente</h1>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <a class="navbar-brand" href="#">Sistema</a>
@@ -69,35 +69,35 @@ if(isset($_GET['id'])){
         echo isset($_SESSION['msg']) ? Helper::alert($_SESSION['msg']) : "";
         unset($_SESSION['msg']);
         ?>
-        <form name="cadcarro" method="post" action="">
+        <form name="cadcliente" method="post" action="">
           <div class="form-group">
-            <input type="text" name="txtmarca" placeholder="Marca" class="form-control"
-                   value="<?php if(isset($car)){ echo $car->marca; }?>">
+            <input type="text" name="txtnome" placeholder="Nome" class="form-control"
+                   value="<?php if(isset($cli)){ echo $cli->nome; }?>">
           </div>
           <div class="form-group">
-            <input type="text" name="txtmodelo" placeholder="Modelo" class="form-control"
-                   value="<?php if(isset($car)){ echo $car->modelo; }?>">
+            <input type="text" name="txtcnh" placeholder="CNH" class="form-control"
+                   value="<?php if(isset($cli)){ echo $cli->cnh; }?>">
           </div>
           <div class="form-group">
-            <input type="text" name="txtano" placeholder="Ano" class="form-control"
-                   value="<?php if(isset($car)){ echo $car->ano; }?>">
+            <input type="text" name="txtendereco" placeholder="Endereco" class="form-control"
+                   value="<?php if(isset($cli)){ echo $cli->endereco; }?>">
           </div>
           <div class="form-group">
-            <input type="number" name="txtvalor" placeholder="Valor" class="form-control"
-            value="<?php if(isset($car)){ echo $car->valor; }?>">
+            <input type="number" name="txtdiaria" placeholder="Diaria" class="form-control"
+            value="<?php if(isset($cli)){ echo $cli->diaria; }?>">
           </div>
           <div class="form-group">
-            <select name="selcor" class="form-control">
-              <option value="Preto" <?php
-                                     if(isset($car)){
-                                        if($car->cor == "Preto"){
+            <select name="selpagamento" class="form-control">
+              <option value="Dinheiro" <?php
+                                     if(isset($cli)){
+                                        if($cli->pagemento == "Dinheiro"){
                                           echo "selected='selected'";
                                         }
                                      }
                                      ?>
-                                     >Preto</option>
-              <option value="Vermelho" <?php if(isset($car)){if($car->cor == "Vermelho"){echo "selected='selected'";}} ?>>Vermelho</option>
-              <option value="Prata" <?php if(isset($car)){if($car->cor == "Prata"){echo "selected='selected'";}} ?>>Prata</option>
+                                     >Dinheiro</option>
+              <option value="Cartão de Crédito" <?php if(isset($cli)){if($cli->pagamento == "Cartao de credito"){echo "selected='selected'";}} ?>>Cartão de crédito</option>
+              <option value="Cartão de Débito" <?php if(isset($cli)){if($cli->pagamento == "Cartao de debito"){echo "selected='selected'";}} ?>>Cartão de Débito</option>
             </select>
           </div>
           <div class="form-group">
@@ -108,26 +108,26 @@ if(isset($_GET['id'])){
         <?php
 
           if(isset($_POST['alterar'])){
-            include_once 'modelo/carro.class.php';
-            include_once 'dao/carrodao.class.php';
+            include_once 'modelo/cliente.class.php';
+            include_once 'dao/clientedao.class.php';
             include 'util/padronizacao.class.php';
 
-            $car = new Carro();
-            $car->idCarro = $_GET['id'];
-            $car->marca = Padronizacao::antiXSS(Padronizacao::padronizarMaiMin($_POST['txtmarca']));
-            $car->modelo = Padronizacao::antiXSS(Padronizacao::padronizarMaiMin($_POST['txtmodelo']));
-            $car->ano = Padronizacao::antiXSS(Padronizacao::padronizarMaiMin($_POST['txtano']));
-            $car->valor = $_POST['txtvalor']; //n precisa é int
-            $car->cor = Padronizacao::antiXSS($_POST['selcor']);
-            $carDAO = new CarroDAO();
-            $carDAO->alterarCarro($car);
+            $cli = new Cliente();
+            $cli->idCliente = $_GET['id'];
+            $cli->nome = Padronizacao::antiXSS(Padronizacao::padronizarMaiMin($_POST['txtnome']));
+            $cli->cnh = Padronizacao::antiXSS(Padronizacao::padronizarMaiMin($_POST['txtcnh']));
+            $cli->endereco = Padronizacao::antiXSS(Padronizacao::padronizarMaiMin($_POST['txtendereco']));
+            $cli->diaria = $_POST['txtdiaria'];
+            $cli->pagamento = Padronizacao::antiXSS($_POST['selpagamento']);
+            $cliDAO = new ClienteDAO();
+            $cliDAO->alterarCliente($cli);
 
-            $_SESSION['msg'] = "Carro alterado com sucesso!";
-            header("location:consulta-carros.php");
+            $_SESSION['msg'] = "Cliente alterado com sucesso!";
+            header("location:consulta-clientes.php");
 
-            //echo "<h2>Carro cadastrado com sucesso!</h2>";
-            //Helper::alert("Carro cadastrado com sucesso!");
-            //echo $car;
+            //echo "<h2>Cliente cadastrado com sucesso!</h2>";
+            //Helper::alert("Cliente cadastrado com sucesso!");
+            //echo $cli;
             ob_end_flush();
           }
         ?>
