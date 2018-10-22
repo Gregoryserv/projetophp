@@ -12,7 +12,7 @@ if(isset($_GET['id'])){
 
 
 
-  $car = $array[0];
+  $cli = $array[0];
 
 
 }
@@ -90,7 +90,7 @@ if(isset($_GET['id'])){
             <select name="selpagamento" class="form-control">
               <option value="Dinheiro" <?php
                                      if(isset($cli)){
-                                        if($cli->pagemento == "Dinheiro"){
+                                        if($cli->pagamento == "Dinheiro"){
                                           echo "selected='selected'";
                                         }
                                      }

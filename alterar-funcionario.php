@@ -80,7 +80,7 @@ if(isset($_GET['id'])){
           </div>
           <div class="form-group">
             <input type="text" name="txtendereco" placeholder="Endereco" class="form-control"
-                   value="<?php if(isset$fun)){ echo $fun->endereco; }?>">
+                   value="<?php if(isset($fun)){ echo $fun->endereco; }?>">
           </div>
           <div class="form-group">
             <input type="number" name="txtsalario" placeholder="Salario" class="form-control"
@@ -113,7 +113,7 @@ if(isset($_GET['id'])){
             include 'util/padronizacao.class.php';
 
             $fun = new Funcionario();
-            $fun->idCliente = $_GET['id'];
+            $fun->idFuncionario= $_GET['id'];
             $fun->nome = Padronizacao::antiXSS(Padronizacao::padronizarMaiMin($_POST['txtnome']));
             $fun->cpF = Padronizacao::antiXSS(Padronizacao::padronizarMaiMin($_POST['txtcpf']));
             $fun->endereco = Padronizacao::antiXSS(Padronizacao::padronizarMaiMin($_POST['txtendereco']));
